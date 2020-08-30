@@ -1,68 +1,98 @@
 //You can edit ALL of the code here
 
 function setup() {
-    let allEpisodes = getAllEpisodes();
+    const allEpisodes = getAllEpisodes();
     makePageForEpisodes(allEpisodes);
 }
 
 function makePageForEpisodes(episodeList) {
     const rootElem = document.getElementById("root");
     let container = document.createElement("section");
-    let i = 0;
-
-    
-    for (const episodeInfo of episodeList) {
-        let seasons = episodeList[i].season.toString();
-        let seasonsPadded = seasons.padStart(2, "0");
-        let episodesNumber = episodeList[i].number.toString();
-        let episodesPadded = episodesNumber.padStart(2, "0");
-        let listDiv = document.createElement("div");
+    episodeList.forEach(function (episode) {
+        let episodeDiv = document.createElement("div");
+        episodeDiv.classList = "episodeStyle";
         let heading = document.createElement("h3");
-        let newImg = document.createElement("img");
-
-        heading.textContent =
-            episodeList[i].name + ` - S${seasonsPadded}E${episodesPadded}`;
-
+        let episodeName = episode.name;
+        let seasons = episode.season.toString();
+        let episodeNumber = episode.number.toString();
+        let seasonsPadded = seasons.padStart(2, "0");
+        let episodesPadded = episodeNumber.padStart(2, "0");
         rootElem.appendChild(container);
-        container.appendChild(listDiv);
-        listDiv.appendChild(heading);
-        listDiv.insertAdjacentHTML("beforeend", episodeList[i].summary);
-        newImg.src = episodeList[i].image["medium"];
-        heading.insertAdjacentElement("afterend", newImg);
-        listDiv.className = "episodeStyle";
-        i++;
+        container.appendChild(episodeDiv);
+        episodeDiv.appendChild(heading);
+        heading.textContent = `${episodeName} - S${seasonsPadded}E${episodesPadded}`;
+        let newImg = document.createElement("img");
+        newImg.src = episode.image["medium"];
+        heading.after(newImg);
+        episodeDiv.insertAdjacentHTML("beforeend", episode.summary);
+    });
+}
+
+let rootElem = document.getElementById("root");
+let input = document.createElement("input");
+let header = document.createElement("header");
+input.type = "text";
+input.id = "userSearch";
+console.log(input);
+let body = document.querySelector("body");
+body.prepend(header);
+header.appendChild(input);
+const episodes = getAllEpisodes();
+let episodeSquares = document.getElementsByClassName("episodeStyle");
+
+function f() {
+    return Array.from(arguments);
+}
+
+let episodeArray = f(episodeSquares);
+
+/* input.addEventListener("keyup", function (e) {
+    const searchTerm = e.target.value.toLowerCase();
+    console.log(searchTerm)
+    episodes.forEach(function (episode) {
+        console.log(episode)
+        if (
+            episode.name.toLowerCase().includes(searchTerm) ||
+            episode.summary.toLowerCase().includes(searchTerm)
+        ) {
+            episode.style.backgroundColor = "green";
+        } else {
+            episode.style.backgroundColor = "red";
+        }
+    });
+}); */
+
+function searchEpisodes(e) {
+    let searchTerm = e.target.value.toLowerCase();
+    for (let i = 0; i < episodeSquares.length; i++) {
+        if (
+            episodeSquares[i].children[0].textContent
+                .toLowerCase()
+                .includes(searchTerm)
+        ) {
+            episodeSquares[i].classList = "episodeStyle";
+        } else {
+            episodeSquares[i].classList = "hidden";
+        }
     }
 }
 
-//let listDiv = document.createElement("div");
-let divEpisodes = document.getElementsByClassName("episodeStyle")
+input.addEventListener("keyup", searchEpisodes);
+/* bodyEl.appendChild(searchEl);
 
-let input = document.querySelector("input");
-let search = input.value;
-
-
-
-function getEpisodes(e) {
-    
-    
-    let allEpisodes = getAllEpisodes();
-    for (let y = 0; y < allEpisodes.length; y++){
-    
-        if (allEpisodes[y].name.includes(e.target.value)) {
-            
-            divEpisodes[y].style.backgroundColor = "green"
-            
+input.addEventListener("keyup", function (e) {
+    const term = e.target.value.toLowerCase();
+    episodes.forEach(function (episode) {
+        if (
+            episode.name.toLowerCase().includes(term) ||
+            episode.summary.toLowerCase().includes(term)
+        ) {
+            episode.style.display = "block";
         } else {
-            
-        }   divEpisodes[y].style.backgroundColor = "red";
-        console.log(e.target.value)
-        console.log(allEpisodes[y].name)
-}
-}
-
-input.addEventListener("keyup", getEpisodes);
-
-
- 
+            episode.style.display = "none";
+        }
+    });
+});
+ */
 
 window.onload = setup;
