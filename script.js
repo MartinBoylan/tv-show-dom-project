@@ -34,30 +34,33 @@ function makePageForEpisodes(episodeList) {
     }
 }
 
-let listDiv = document.createElement("div");
+//let listDiv = document.createElement("div");
 let divEpisodes = document.getElementsByClassName("episodeStyle")
-
-
-
 
 let input = document.querySelector("input");
 let search = input.value;
-function getEpisodes() {
+
+
+
+function getEpisodes(e) {
+    
+    
     let allEpisodes = getAllEpisodes();
     for (let y = 0; y < allEpisodes.length; y++){
     
-        if (allEpisodes[y].name.includes(search)) {
+        if (allEpisodes[y].name.includes(e.target.value)) {
             
-            divEpisodes[y].style.backgroundColor = "red"
-            console.log(allEpisodes[y].name)
-            console.log(search)
+            divEpisodes[y].style.backgroundColor = "green"
+            
         } else {
             
-        }   divEpisodes[y].style.backgroundColor = "green";
+        }   divEpisodes[y].style.backgroundColor = "red";
+        console.log(e.target.value)
+        console.log(allEpisodes[y].name)
 }
 }
 
-input.addEventListener("keyup", getEpisodes)
+input.addEventListener("keyup", getEpisodes);
 
 
  
