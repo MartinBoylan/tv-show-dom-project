@@ -46,21 +46,7 @@ function f() {
 
 let episodeArray = f(episodeSquares);
 
-/* input.addEventListener("keyup", function (e) {
-    const searchTerm = e.target.value.toLowerCase();
-    console.log(searchTerm)
-    episodes.forEach(function (episode) {
-        console.log(episode)
-        if (
-            episode.name.toLowerCase().includes(searchTerm) ||
-            episode.summary.toLowerCase().includes(searchTerm)
-        ) {
-            episode.style.backgroundColor = "green";
-        } else {
-            episode.style.backgroundColor = "red";
-        }
-    });
-}); */
+
 
 function searchEpisodes(e) {
     let searchTerm = e.target.value.toLowerCase();
@@ -78,21 +64,6 @@ function searchEpisodes(e) {
 }
 
 input.addEventListener("keyup", searchEpisodes);
-/* bodyEl.appendChild(searchEl);
 
-input.addEventListener("keyup", function (e) {
-    const term = e.target.value.toLowerCase();
-    episodes.forEach(function (episode) {
-        if (
-            episode.name.toLowerCase().includes(term) ||
-            episode.summary.toLowerCase().includes(term)
-        ) {
-            episode.style.display = "block";
-        } else {
-            episode.style.display = "none";
-        }
-    });
-});
- */
 
 window.onload = setup;
