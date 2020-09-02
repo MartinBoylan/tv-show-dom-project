@@ -8,6 +8,8 @@ function setup() {
 function makePageForEpisodes(episodeList) {
     const rootElem = document.getElementById("root");
     let container = document.createElement("section");
+    console.log(episodeList.length);
+
     episodeList.forEach(function (episode) {
         let episodeDiv = document.createElement("div");
         episodeDiv.classList = "episodeStyle";
@@ -28,42 +30,32 @@ function makePageForEpisodes(episodeList) {
     });
 }
 
-let rootElem = document.getElementById("root");
 let input = document.createElement("input");
 let header = document.createElement("header");
 input.type = "text";
 input.id = "userSearch";
-console.log(input);
+
 let body = document.querySelector("body");
 body.prepend(header);
 header.appendChild(input);
-const episodes = getAllEpisodes();
-let episodeSquares = document.getElementsByClassName("episodeStyle");
+let searchInput = document.getElementById("userSearch");
+const allEpisodes = getAllEpisodes();
 
-function f() {
-    return Array.from(arguments);
+function searchEpisodes(searchTerm, allEpisodes) {
+    let episodes = [];
+
+    episodes = allEpisodes.filter(
+        (episode) =>
+            episode.name.toLowerCase().includes(searchTerm) ||
+            episode.summary.toLowerCase().includes(searchTerm)
+    );
+
+    makePageForEpisodes(episodes);
 }
 
-let episodeArray = f(episodeSquares);
-
-
-
-function searchEpisodes(e) {
+searchInput.addEventListener("keyup", function (e) {
     let searchTerm = e.target.value.toLowerCase();
-    for (let i = 0; i < episodeSquares.length; i++) {
-        if (
-            episodeSquares[i].children[0].textContent
-                .toLowerCase()
-                .includes(searchTerm)
-        ) {
-            episodeSquares[i].classList = "episodeStyle";
-        } else {
-            episodeSquares[i].classList = "hidden";
-        }
-    }
-}
-
-input.addEventListener("keyup", searchEpisodes);
-
+    searchEpisodes(searchTerm, allEpisodes);
+});
 
 window.onload = setup;
