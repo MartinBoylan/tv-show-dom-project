@@ -73,7 +73,7 @@ function selectEpisode(episodeList) {
     itsDropdown.classList.toggle("show");
 
     episodeList.forEach((episode) => {
-        let dropBits = document.createElement("a");
+        let dropBits = document.createElement("option");
 
         let episodeName = episode.name;
         let seasons = episode.season.toString();
@@ -81,10 +81,11 @@ function selectEpisode(episodeList) {
         let seasonsPadded = seasons.padStart(2, "0");
         let episodesPadded = episodeNumber.padStart(2, "0");
         dropBits.textContent = `S${seasonsPadded}E${episodesPadded} - ${episodeName}`;
-        dropBits.href = `#${episode.id}`;
+        dropBits.value = `#${episode.id}`;
         itsDropdown.appendChild(dropBits);
+
         dropBits.addEventListener("click", function () {
-            itsDropdown.innerHTML = "";
+            itsDropdown.innerHTML = ""; //doesn't seem to be doing anything now
         });
     });
 }
