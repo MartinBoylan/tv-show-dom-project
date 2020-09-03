@@ -1,4 +1,4 @@
-/* function setup() {
+/*  function setup() {
     const allEpisodes = getAllEpisodes();
     makePageForEpisodes(allEpisodes);
 }
@@ -53,4 +53,4 @@ function getEpisodes(e) {
 
 input.addEventListener("keyup", getEpisodes);
 
-window.onload = setup; */
+window.onload = setup;  */

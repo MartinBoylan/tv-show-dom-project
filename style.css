@@ -41,3 +41,38 @@ h3 {
     text-align: center;
     
 }
+.drop-btn {
+    cursor: pointer;
+    
+    color: "white";
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    min-width: 160px;
+    z-index: 1;
+    background-color: #f1f1f1;
+
+}
+.dropdown-content a {
+    display: block;
+    text-decoration: none;
+    padding: 8px 4px;
+    color: black;
+    border: solid 1px rgb(255, 0, 55)
+}
+
+
+.show {
+    display: block;
+    
+    
+    
+}
+
