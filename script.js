@@ -1,68 +1,94 @@
 //You can edit ALL of the code here
+let input = document.createElement("input");
+let header = document.createElement("header");
+input.type = "text";
+input.id = "userSearch";
+let display = document.createElement("p");
+let body = document.querySelector("body");
+body.prepend(header);
+header.appendChild(input);
+header.appendChild(display);
+let searchInput = document.getElementById("userSearch");
+const allEpisodes = getAllEpisodes();
 
 function setup() {
-    let allEpisodes = getAllEpisodes();
+    const allEpisodes = getAllEpisodes();
     makePageForEpisodes(allEpisodes);
 }
-
+// populate page with elements made from the allEpisodes array
 function makePageForEpisodes(episodeList) {
     const rootElem = document.getElementById("root");
     let container = document.createElement("section");
-    let i = 0;
+    rootElem.innerHTML = "";
 
-    
-    for (const episodeInfo of episodeList) {
-        let seasons = episodeList[i].season.toString();
-        let seasonsPadded = seasons.padStart(2, "0");
-        let episodesNumber = episodeList[i].number.toString();
-        let episodesPadded = episodesNumber.padStart(2, "0");
-        let listDiv = document.createElement("div");
+    display.textContent = `${episodeList.length} matches`;
+
+    episodeList.forEach(function (episode) {
+        let episodeDiv = document.createElement("div");
+        episodeDiv.classList = "episodeStyle";
+        episodeDiv.id = episode.id;
         let heading = document.createElement("h3");
-        let newImg = document.createElement("img");
-
-        heading.textContent =
-            episodeList[i].name + ` - S${seasonsPadded}E${episodesPadded}`;
-
+        let episodeName = episode.name;
+        let seasons = episode.season.toString();
+        let episodeNumber = episode.number.toString();
+        let seasonsPadded = seasons.padStart(2, "0");
+        let episodesPadded = episodeNumber.padStart(2, "0");
         rootElem.appendChild(container);
-        container.appendChild(listDiv);
-        listDiv.appendChild(heading);
-        listDiv.insertAdjacentHTML("beforeend", episodeList[i].summary);
-        newImg.src = episodeList[i].image["medium"];
-        heading.insertAdjacentElement("afterend", newImg);
-        listDiv.className = "episodeStyle";
-        i++;
-    }
+        container.appendChild(episodeDiv);
+        episodeDiv.appendChild(heading);
+        heading.textContent = `${episodeName} - S${seasonsPadded}E${episodesPadded}`;
+        let newImg = document.createElement("img");
+        newImg.src = episode.image["medium"];
+        heading.after(newImg);
+        episodeDiv.insertAdjacentHTML("beforeend", episode.summary);
+    });
 }
+//Filter the episode array and pass the filtered episodes back into populate elements
+function searchEpisodes(searchTerm, allEpisodes) {
+    let episodes = [];
 
-//let listDiv = document.createElement("div");
-let divEpisodes = document.getElementsByClassName("episodeStyle")
+    episodes = allEpisodes.filter(
+        (episode) =>
+            episode.name.toLowerCase().includes(searchTerm) ||
+            episode.summary.toLowerCase().includes(searchTerm)
+    );
 
-let input = document.querySelector("input");
-let search = input.value;
-
-
-
-function getEpisodes(e) {
-    
-    
-    let allEpisodes = getAllEpisodes();
-    for (let y = 0; y < allEpisodes.length; y++){
-    
-        if (allEpisodes[y].name.includes(e.target.value)) {
-            
-            divEpisodes[y].style.backgroundColor = "green"
-            
-        } else {
-            
-        }   divEpisodes[y].style.backgroundColor = "red";
-        console.log(e.target.value)
-        console.log(allEpisodes[y].name)
+    makePageForEpisodes(episodes);
 }
+//listen to search and call the search function
+searchInput.addEventListener("keyup", function (e) {
+    let searchTerm = e.target.value.toLowerCase();
+    searchEpisodes(searchTerm, allEpisodes);
+});
+// Listen to the select button and call the function to select the episode
+
+let dropButton = document.getElementById("myDropdown");
+dropButton.addEventListener("click", function () {
+    selectEpisode(allEpisodes);
+});
+
+//toggle the dropdown, populate it and go to selected episode
+function selectEpisode(episodeList) {
+    let itsDropdown = document.querySelector(".dropdown-content");
+
+    itsDropdown.classList.toggle("show");
+
+    episodeList.forEach((episode) => {
+        let dropBits = document.createElement("option");
+
+        let episodeName = episode.name;
+        let seasons = episode.season.toString();
+        let episodeNumber = episode.number.toString();
+        let seasonsPadded = seasons.padStart(2, "0");
+        let episodesPadded = episodeNumber.padStart(2, "0");
+        dropBits.textContent = `S${seasonsPadded}E${episodesPadded} - ${episodeName}`;
+        dropBits.value = `#${episode.id}`;
+        itsDropdown.appendChild(dropBits);
+
+        dropBits.addEventListener("click", function () {
+            itsDropdown.innerHTML = ""; //doesn't seem to be doing anything now
+        });
+    });
 }
-
-input.addEventListener("keyup", getEpisodes);
-
-
- 
 
 window.onload = setup;
