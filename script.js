@@ -3,10 +3,11 @@ let input = document.createElement("input");
 let header = document.createElement("header");
 input.type = "text";
 input.id = "userSearch";
-
+let display = document.createElement("p");
 let body = document.querySelector("body");
 body.prepend(header);
 header.appendChild(input);
+header.appendChild(display);
 let searchInput = document.getElementById("userSearch");
 const allEpisodes = getAllEpisodes();
 
@@ -20,7 +21,7 @@ function makePageForEpisodes(episodeList) {
     let container = document.createElement("section");
     rootElem.innerHTML = "";
 
-    console.log(episodeList.length);
+    display.textContent = `${episodeList.length} matches`;
 
     episodeList.forEach(function (episode) {
         let episodeDiv = document.createElement("div");
