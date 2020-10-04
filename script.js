@@ -9,12 +9,23 @@ body.prepend(header);
 header.appendChild(input);
 header.appendChild(display);
 let searchInput = document.getElementById("userSearch");
-const allEpisodes = getAllEpisodes();
-
-function setup() {
-    const allEpisodes = getAllEpisodes();
-    makePageForEpisodes(allEpisodes);
+/* const allEpisodes = getAllEpisodes(); */
+// fetch episodes from API
+function fetchEpisodes(showId = 82) {
+    let proxyUrl = `https://cors-anywhere.herokuapp.com/`;
+    targetUrl = `https://api.tvmaze.com/shows/${showId}/episodes`;
+    fetch(proxyUrl + targetUrl)
+        .then((response) => response.json())
+        .then((data) => {
+            allEpisodes = data;
+            makePageForEpisodes(allEpisodes);
+        })
+        .catch((error) => {
+            console.log(error);
+        });
 }
+
+
 // populate page with elements made from the allEpisodes array
 function makePageForEpisodes(episodeList) {
     const rootElem = document.getElementById("root");
@@ -75,7 +86,7 @@ function selectEpisode(episodeList) {
 
     episodeList.forEach((episode) => {
         let dropBits = document.createElement("option");
-
+        
         let episodeName = episode.name;
         let seasons = episode.season.toString();
         let episodeNumber = episode.number.toString();
@@ -85,10 +96,41 @@ function selectEpisode(episodeList) {
         dropBits.value = `#${episode.id}`;
         itsDropdown.appendChild(dropBits);
 
-        dropBits.addEventListener("click", function () {
-            itsDropdown.innerHTML = ""; //doesn't seem to be doing anything now
-        });
+       
+       
     });
 }
+//Listen to the show dropdown and populate it
+let showSearch = document.getElementById("myShowDropdown");
+showSearch.addEventListener("click", function () {
+    let shows = getAllShows();
+    
+    shows.forEach(function (show) {
+       
+        let dropDownShow = document.createElement("option");
+        let selectMe = document.getElementById("selectMe");
+        dropDownShow.textContent = `${show.name}`;
+        dropDownShow.id = `${show.id}`;
+        
+        dropDownShow.addEventListener("click", function (){
 
-window.onload = setup;
+        })
+        
+
+        selectMe.classList.toggle("show");
+
+        selectMe.appendChild(dropDownShow);
+        
+    });
+
+  
+});
+//Seems to be causing an error, too many requests
+/* document.querySelector("#selectMe").addEventListener("change", selectShow);
+function selectShow(event) {
+    let showId = event.target.value;
+    fetchEpisodes(showId)
+}
+
+fetchEpisodes(); 
+*/

@@ -46,7 +46,7 @@ h3 {
 }
 .drop-btn {
     cursor: pointer;
-
+    
     color: "white";
 }
 
@@ -69,6 +69,7 @@ h3 {
     padding: 8px 4px;
     color: black;
     border: solid 1px rgb(255, 0, 55);
+    z-index: 1
 }
 
 .show {

@@ -10,8 +10,12 @@
 
     <body>
         <div class="dropdown">
-            <label id="myDropdown" class="drop-btn">Select</label>
+            
             <select class="dropdown-content" onChange="window.location.href=this.value"></select>
+            <option id="myDropdown" class="drop-btn">Select Episode</option>
+            
+            <select id = "selectMe" class="dropdown-content"></select>
+            <option id="myShowDropdown" class="drop-btn">Select Show</option>
         </div>
         <div id="root"></div>
         <footer>
@@ -20,7 +24,7 @@
         </footer>
         <!-- Loads a provided function called getAllEpisodes() which returns all episodes -->
         <script src="episodes.js"></script>
-
+        <script src="shows.js"></script>
         <!-- Loads YOUR javascript code -->
         <script src="script.js"></script>
     </body>
