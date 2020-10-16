@@ -9,7 +9,7 @@ body.prepend(header);
 header.appendChild(input);
 header.appendChild(display);
 let searchInput = document.getElementById("userSearch");
-/* const allEpisodes = getAllEpisodes(); */
+let allEpisodes = getAllEpisodes();
 // fetch episodes from API
 function fetchEpisodes(showId = 82) {
     let proxyUrl = `https://cors-anywhere.herokuapp.com/`;
@@ -24,7 +24,6 @@ function fetchEpisodes(showId = 82) {
             console.log(error);
         });
 }
-
 
 // populate page with elements made from the allEpisodes array
 function makePageForEpisodes(episodeList) {
@@ -86,7 +85,7 @@ function selectEpisode(episodeList) {
 
     episodeList.forEach((episode) => {
         let dropBits = document.createElement("option");
-        
+
         let episodeName = episode.name;
         let seasons = episode.season.toString();
         let episodeNumber = episode.number.toString();
@@ -95,42 +94,32 @@ function selectEpisode(episodeList) {
         dropBits.textContent = `S${seasonsPadded}E${episodesPadded} - ${episodeName}`;
         dropBits.value = `#${episode.id}`;
         itsDropdown.appendChild(dropBits);
-
-       
-       
     });
 }
 //Listen to the show dropdown and populate it
 let showSearch = document.getElementById("myShowDropdown");
 showSearch.addEventListener("click", function () {
     let shows = getAllShows();
-    
+    shows.sort();
+
     shows.forEach(function (show) {
-       
         let dropDownShow = document.createElement("option");
         let selectMe = document.getElementById("selectMe");
         dropDownShow.textContent = `${show.name}`;
-        dropDownShow.id = `${show.id}`;
-        
-        dropDownShow.addEventListener("click", function (){
+        dropDownShow.value = `${show.id}`;
 
-        })
-        
+        dropDownShow.addEventListener("click", function () {});
 
         selectMe.classList.toggle("show");
 
         selectMe.appendChild(dropDownShow);
-        
     });
-
-  
 });
 //Seems to be causing an error, too many requests
-/* document.querySelector("#selectMe").addEventListener("change", selectShow);
+document.querySelector("#selectMe").addEventListener("change", selectShow);
 function selectShow(event) {
     let showId = event.target.value;
-    fetchEpisodes(showId)
+    fetchEpisodes(showId);
 }
 
-fetchEpisodes(); 
-*/
+fetchEpisodes();
